@@ -50,6 +50,6 @@ spec:
         - name: kafka-manager
           secret:
             defaultMode: 288
-            secretName: kafka-manager
+            secretName: msch-kafka-brokers
   strategy:
     type: RollingUpdate

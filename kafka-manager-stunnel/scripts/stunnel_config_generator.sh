@@ -6,7 +6,8 @@ KAFKA_CERTS_KEYS=/etc/tls-sidecar/kafka-manager
 CA_CERTS=/tmp/cluster-ca.crt
 cat /etc/tls-sidecar/cluster-ca-certs/*.crt > "$CA_CERTS"
 
-CURRENT=user
+# Just need one
+CURRENT=msch-kafka-0
 
 echo "pid = /usr/local/var/run/stunnel.pid"
 echo "foreground = yes"
