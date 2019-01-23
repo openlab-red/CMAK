@@ -1,0 +1,18 @@
+apiVersion: kafka.strimzi.io/v1alpha1
+kind: KafkaUser
+metadata:
+  name: kafka-manager
+  labels:
+    strimzi.io/cluster: msch
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: cluster
+          name: "*"
+          patternType: literal
+        operation: All
+        host: "*"

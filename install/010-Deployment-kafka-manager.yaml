@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kafka-manager
+  labels:
+    app: strimzi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: kafka-manager
+    spec:
+      containers:
+        - name: kafka-manager
+          image: openlabred/kafka-manager:v1.0.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          ports:
+            - containerPort: 9000
+              name: ui
+              protocol: TCP
+        - env:
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: 'msch-zookeeper-client:2181'
+            - name: TLS_SIDECAR_LOG_LEVEL
+              value: notice
+          image: openlabred/kafka-manager-stunnel:v1.0.0
+          imagePullPolicy: Always
+          name: tls-sidecar
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/tls-sidecar/kafka-manager/
+              name: kafka-manager
+            - mountPath: /etc/tls-sidecar/cluster-ca-certs/
+              name: cluster-ca
+      volumes:
+        - name: cluster-ca
+          secret:
+            defaultMode: 288
+            secretName: msch-cluster-ca-cert
+        - name: kafka-manager
+          secret:
+            defaultMode: 288
+            secretName: kafka-manager
+  strategy:
+    type: RollingUpdate
