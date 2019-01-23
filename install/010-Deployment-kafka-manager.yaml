@@ -26,6 +26,9 @@ spec:
             - containerPort: 9000
               name: ui
               protocol: TCP
+          env:
+            - name: ZK_HOSTS
+              value: '127.0.0.1:2181'
         - env:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: 'msch-zookeeper-client:2181'
