@@ -7,7 +7,7 @@ CA_CERTS=/tmp/cluster-ca.crt
 cat /etc/tls-sidecar/cluster-ca-certs/*.crt > "$CA_CERTS"
 
 # Just need one
-CURRENT=msch-kafka-0
+CURRENT=${KAFKA_CERTS_NAME:-manager}
 
 echo "pid = /usr/local/var/run/stunnel.pid"
 echo "foreground = yes"

@@ -29,11 +29,25 @@ spec:
           env:
             - name: ZK_HOSTS
               value: '127.0.0.1:2181'
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 30
         - env:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: 'msch-zookeeper-client:2181'
             - name: TLS_SIDECAR_LOG_LEVEL
               value: notice
+            - name: KAFKA_CERTS_NAME
+              value: kafka-manager
           image: openlabred/kafka-manager-stunnel:v1.0.0
           imagePullPolicy: Always
           name: tls-sidecar
