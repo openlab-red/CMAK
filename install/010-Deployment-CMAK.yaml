@@ -3,12 +3,13 @@ kind: Deployment
 metadata:
   name: cmak
   labels:
-    app: strimzi
+    strimzi.io/name: main-zookeeper
 spec:
   replicas: 1
   template:
     metadata:
       labels:
+        strimzi.io/name: main-zookeeper
         name: cmak
     spec:
       containers:
