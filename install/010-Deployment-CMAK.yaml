@@ -47,7 +47,7 @@ spec:
             - name: TLS_SIDECAR_LOG_LEVEL
               value: notice
             - name: KAFKA_CERTS_NAME
-              value: cmak
+              value: main-kafka-0
           image: openlabred/cmak-stunnel:v1.0.0
           imagePullPolicy: Always
           name: tls-sidecar

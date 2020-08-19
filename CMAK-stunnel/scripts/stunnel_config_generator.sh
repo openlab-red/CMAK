@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # path were the Secret with broker certificates is mounted
-KAFKA_CERTS_KEYS=/etc/tls-sidecar/kafka-manager
+KAFKA_CERTS_KEYS=/etc/tls-sidecar/cmak
 # Combine all the certs in the cluster CA into one file
 CA_CERTS=/tmp/cluster-ca.crt
 cat /etc/tls-sidecar/cluster-ca-certs/*.crt > "$CA_CERTS"
