@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: kafka-manager
+  name: cmak
   labels:
     app: strimzi
 spec:
@@ -9,11 +9,11 @@ spec:
   template:
     metadata:
       labels:
-        name: kafka-manager
+        name: cmak
     spec:
       containers:
-        - name: kafka-manager
-          image: openlabred/kafka-manager:v1.0.0
+        - name: cmak
+          image: openlabred/cmak:v3.0.0.5
           imagePullPolicy: Always
           resources:
             limits:
@@ -43,30 +43,30 @@ spec:
             periodSeconds: 30
         - env:
             - name: KAFKA_ZOOKEEPER_CONNECT
-              value: 'msch-zookeeper-client:2181'
+              value: 'main-zookeeper-client:2181'
             - name: TLS_SIDECAR_LOG_LEVEL
               value: notice
             - name: KAFKA_CERTS_NAME
-              value: kafka-manager
-          image: openlabred/kafka-manager-stunnel:v1.0.0
+              value: cmak
+          image: openlabred/cmak-stunnel:v1.0.0
           imagePullPolicy: Always
           name: tls-sidecar
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-            - mountPath: /etc/tls-sidecar/kafka-manager/
-              name: kafka-manager
+            - mountPath: /etc/tls-sidecar/cmak/
+              name: cmak
             - mountPath: /etc/tls-sidecar/cluster-ca-certs/
               name: cluster-ca
       volumes:
         - name: cluster-ca
           secret:
             defaultMode: 288
-            secretName: msch-cluster-ca-cert
-        - name: kafka-manager
+            secretName: main-cluster-ca-cert
+        - name: cmak
           secret:
             defaultMode: 288
-            secretName: msch-kafka-brokers
+            secretName: main-kafka-brokers
   strategy:
     type: RollingUpdate
